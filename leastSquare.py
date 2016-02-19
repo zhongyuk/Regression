@@ -1,4 +1,8 @@
 """
-Write my own least square regression class
+Write my own least square regression class...
+
 """
+
+class leastSquare:
+    
 
