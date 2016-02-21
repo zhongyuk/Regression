@@ -2,7 +2,13 @@ class leastSquareReg:
     """
     My own least square regression class.
     
-    Methods:
+    API Methods:
+    getX(): return constructed X matrix
+    normFunc():
+    compRSS():
+    compCostFunc():
+    gradientDescent():
+    predY():
     
     Attributes:
     _X:  the explanatory variable matrix after padding a column of ones
@@ -19,15 +25,35 @@ class leastSquareReg:
             y.shape[1]
             self._y = y
         except IndexError as e:
-            self._y = *** left off --- reshape into column
-        self._y = y
+            self._y = np.reshape(y, (-1,1))
         self._num = y.shape[0]
         self._X = np.concatenate((self._colOfOnes(),X), axis=1)
         
     ## API methods
+    #### A getter method for constructed X
     def getX(self):
         return self._X
+
+    #### Normal function solution
+    def normFunc():
+
+    #### Compute Residual Sum of Squares
+    def compRSS():
+
+    #### Compute cost functon
+    def compCostFunc():
+
+    #### Gradient Descent
+    def gradientDescent():
     
+    #### Predict outcome
+    def predY():
+    
+    #### Compute P value
+    def pValue():
+    
+
+
     ## Helper methods
     def _colOfOnes(self):
         return np.ones((self._num,1))
