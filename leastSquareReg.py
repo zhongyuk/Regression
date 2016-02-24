@@ -1,4 +1,5 @@
-class leastSquareReg:
+from numpy import *
+class LeastSquare:
     """
     My own least square regression class.
     
@@ -16,7 +17,7 @@ class leastSquareReg:
     _num:   num of observations
 
     """
-    import numpy as np
+    
     ## Constructor
     def __init__(self, X, y): 
         if X.shape[0]!=y.shape[0]:
@@ -24,10 +25,10 @@ class leastSquareReg:
         try:
             y.shape[1]
             self._y = y
-        except IndexError as e:
-            self._y = np.reshape(y, (-1,1))
+        except IndexError:
+            self._y = reshape(y, (-1,1))
         self._num = y.shape[0]
-        self._X = np.concatenate((self._colOfOnes(),X), axis=1)
+        self._X = concatenate((self._colOfOnes(),X), axis=1)
         
     ## API methods
     #### A getter method for constructed X
@@ -36,27 +37,33 @@ class leastSquareReg:
 
     #### Normal function solution
     def normFunc():
+        return
 
     #### Compute Residual Sum of Squares
     def compRSS():
+        return
 
     #### Compute cost functon
     def compCostFunc():
+        return
 
     #### Gradient Descent
     def gradientDescent():
+        return
     
     #### Predict outcome
     def predY():
+        return
     
     #### Compute P value
     def pValue():
+        return
     
 
 
     ## Helper methods
     def _colOfOnes(self):
-        return np.ones((self._num,1))
+        return ones((self._num,1))
         
 
 class DimensionMismatch(Exception):
