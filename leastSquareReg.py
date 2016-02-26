@@ -19,7 +19,8 @@ class LeastSquare:
     """
     
     ## Constructor
-    def __init__(self, X, y): 
+    def __init__(self, X, y):
+        self._num = y.shape[0]
         if X.shape[0]!=y.shape[0]:
             raise DimensionMismatch()
         try:
@@ -27,20 +28,29 @@ class LeastSquare:
             self._y = y
         except IndexError:
             self._y = reshape(y, (-1,1))
-        self._num = y.shape[0]
-        self._X = concatenate((self._colOfOnes(),X), axis=1)
+        ## for simple linear regression
+        try:
+            X.shape[1]
+            self._X = concatenate((self._colOfOnes(),X), axis=1)
+        except IndexError:
+            x2D = reshape(X, (-1,1))
+            self._X = concatenate((self._colOfOnes(),x2D), axis=1)
         
     ## API methods
-    #### A getter method for constructed X
+    #### A getter method for constructed X, y
     def getX(self):
         return self._X
+    
+    def getY(self):
+        return self._y
 
     #### Normal function solution
-    def normFunc():
-        return
+    def normFunc(self):
+        theta = dot(dot(linalg.inv(dot(self._X.T, self._X)),self._X.T), self._y)
+        return theta ## The estimator
 
     #### Compute Residual Sum of Squares
-    def compRSS():
+    def compRSS(self):
         return
 
     #### Compute cost functon
