@@ -57,16 +57,21 @@ def testPredY():
     normfuncEst = mod2.getNormFuncEst()
     epson = 1e-6
     threshold = epson * y1
-    estimatedY = mod1.predY()
+    estimatedY = mod1.predY(estimator='NormalFunction')
     if np.less(abs(y1-),threshold).all():
         print
     else:
         print
 
 
+def testCompRSS():
+    return
+
 
 if __name__ == '__main__':
     testConstructor()
     testNormFunc()
+    testPredY()
+    testCompRSS()
 
 
