@@ -65,7 +65,6 @@ class LeastSquare:
     #### Normal function solution
     def normFunc(self):
         self._normFuncEst = dot(dot(linalg.inv(dot(self._X.T, self._X)),self._X.T), self._y)
-        
         return self.getNormFuncEst()## The estimator
 
     #### Compute Residual Sum of Squares
@@ -116,20 +115,20 @@ class LeastSquare:
                 newX.shape[1]
                 newX = concatenate((self._colOfOnes(),newX), axis=1)
             except IndexError:
-                newX = reshape(realX, (-1,1))
+                newX = reshape(newX, (-1,1))
                 newX = concatenate((self._colOfOnes(),newX), axis=1)
         if estimator=='GradientDescent':
             if self._gradDescEst is None:
                 message = 'Gradient Descent Calculated Least Square Estimator has not been initialized yet!'
                 raise ValueError(message)
             else:
-                estimatedY = dot(newX, self._normFuncEst)
+                estimatedY = dot(newX, self._gradDescEst)
         elif estimator=='NormalFunction':
             if self._normFuncEst is None:
                 message = 'Normal Function Calculated Least Square Estimator has not been initialized yet!'
                 raise ValueError(message)
             else:
-                estimatedY = dot(newX, self._gradDescEst)
+                estimatedY = dot(newX, self._normFuncEst)
         else:
             message = "Invalid Argument: estimator type can only be 'GradientDescent' or 'NormalFunction'"
             raise ValueError(message)
