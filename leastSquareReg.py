@@ -114,6 +114,7 @@ class LeastSquare:
                     raise GradientDescentError()
                 prevGradient = abs(self._compGradient(theta))
                 theta = theta - self._compGradient(theta)*step
+        self._gradDescEst = theta
         return theta, costs
     
     #### Predict outcome

@@ -57,8 +57,8 @@ def testPredY():
         print "check field variable initialization CORRECT!"
     mod1.normFunc()
     normfuncEst = mod1.getNormFuncEst()
-    epson = 1e-6
-    threshold = epson * y1
+    epson = 1e-3
+    threshold = epson * np.ones((3,1))
     estimatedY = mod1.predY(estimator='NormalFunction')
     y1vert = np.reshape(y1,(-1,1))
     if np.less(abs(y1vert-estimatedY),threshold).all():
@@ -76,6 +76,12 @@ def testPredY():
         print "prediction of y from test set CORRECT!"
     else:
         print "FAILED to correctly predict y from test set!"
+    gradDesEst = mod1.gradientDescent(step=0.05, iteration=150)
+    gradDesEstY = mod1.predY()
+    if np.less(abs(y1vert-gradDesEstY), threshold).all():
+        print "gradient descent prediction of y CORRECT!"
+    else:
+        print "FAILED to predict y correctly using gradient descent!"
     
 
 def testCompRSS():
@@ -93,12 +99,18 @@ def testCompRSS():
     except ValueError:
         print "check field variable initialization CORRECT!"
     mod1.normFunc()
-    rss = mod1.compRSS(estimator='NormalFunction')
+    rssNF = mod1.compRSS(estimator='NormalFunction')
     epson = 1e-6
-    if np.less(abs(rss), epson).all():
-        print "compute of RSS CORRECT!"
+    if np.less(abs(rssNF), epson).all():
+        print "compute RSS through normal function CORRECT!"
     else:
-        print "FAILED to compute RSS correctly!"
+        print "FAILED to compute RSS correctly through normal function!"
+    mod1.gradientDescent(step=0.05, iteration=150)
+    rssGD = mod1.compRSS()
+    if np.less(abs(rssGD), epson).all():
+        print "compute RSS through gradient descent CORRECT!"
+    else:
+        print "FAILED to compute RSS correctly through gradient descent!"
 
 def testGradientDescent():
     x1 = np.array([1,2,3])
