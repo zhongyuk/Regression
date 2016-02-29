@@ -5,6 +5,7 @@ Provide unit tests for LeastSquare class
 import leastSquareReg as lsr
 import numpy as np
 from leastSquareReg import DimensionMismatch
+from leastSquareReg import GradientDescentError
 
 ## test contructor
 def testConstructor():
@@ -98,7 +99,29 @@ def testCompRSS():
         print "compute of RSS CORRECT!"
     else:
         print "FAILED to compute RSS correctly!"
-    return
+
+def testGradientDescent():
+    x1 = np.array([1,2,3])
+    y1 = np.array([1,2,3])
+    mod1 = lsr.LeastSquare(x1,y1)
+    step1 = 0.1
+    iteration = 100
+    try:
+        theta, costs = mod1.gradientDescent(step=step1, iteration=iteration)
+        print "FAILED to check gradient decreasing trend!"
+    except GradientDescentError:
+        print "check gradient decreasing trend CORRECT!"
+    step2 = 0.05
+    thetaGD, costs = mod1.gradientDescent(step=step2, iteration = iteration)
+    thetaNormFunc = mod1.normFunc()
+    if np.less(abs(thetaGD-thetaNormFunc),np.array([[0.05],[0.05]])).all():
+        print "gradient descent solution CORRECT!"
+    else:
+        print "FAILED gradient descent solution, mismatch with normal function solution!"
+    
+        
+    #print theta
+    #print costs
 
 
 if __name__ == '__main__':
@@ -106,5 +129,6 @@ if __name__ == '__main__':
     testNormFunc()
     testPredY()
     testCompRSS()
+    testGradientDescent()
 
 

@@ -98,13 +98,23 @@ class LeastSquare:
             raise ValueError(message)
         return rss
 
-    #### Compute cost functon
-    def compCostFunc(self):
-        return
-
     #### Gradient Descent
-    def gradientDescent(self):
-        return
+    def gradientDescent(self, step, iteration, thetaInit=None, threthold=None):
+        if thetaInit is None:
+            thetaInit = zeros((self._X.shape[1],1))
+        if thetaInit.shape[0]!=self._X.shape[1]:
+            raise DimensionMismatch()
+        theta = thetaInit
+        costs = zeros(iteration)
+        prevGradient = float("inf")*ones((self._X.shape[1],1))
+        if threthold is None:
+            for i in range(0,iteration):
+                costs[i] = self._compCost(theta)
+                if less(prevGradient, abs(self._compGradient(theta))).all():
+                    raise GradientDescentError()
+                prevGradient = abs(self._compGradient(theta))
+                theta = theta - self._compGradient(theta)*step
+        return theta, costs
     
     #### Predict outcome
     def predY(self, newX=None, estimator='GradientDescent'):
@@ -143,7 +153,12 @@ class LeastSquare:
     ## Helper methods
     def _colOfOnes(self):
         return ones((self._num,1))
-        
+    def _compCost(self, theta):
+        cost = sum(square(dot(self._X, theta)-self._y))
+        return cost
+    def _compGradient(self, theta):
+        gradient = -2*dot(self._X.T, self._y-dot(self._X,theta))
+        return gradient
 
 class DimensionMismatch(Exception):
     """
@@ -151,9 +166,17 @@ class DimensionMismatch(Exception):
     have different number of instances.
     """
     def __init__(self):
-        self.value = 'Explanatory variable and response variable have different number of observations!'
+        self.value = 'Relavent variables Dimensions Mismatch!'
     def __str__(self):
         return repr(self.value)
 
+class GradientDescentError(Exception):
+    """
+    Raise GradientDescentError Exception when gradient seems to be increasing over time.
+    """
+    def __init__(self):
+        self.value = 'Gradients Increasing Overtime. Try reduce step size!'
+    def __str__(self):
+        return repr(self.value)
     
 
