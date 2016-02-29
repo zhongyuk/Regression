@@ -127,13 +127,16 @@ def testGradientDescent():
     thetaGD, costs = mod1.gradientDescent(step=step2, iteration = iteration)
     thetaNormFunc = mod1.normFunc()
     if np.less(abs(thetaGD-thetaNormFunc),np.array([[0.05],[0.05]])).all():
-        print "gradient descent solution CORRECT!"
+        print "gradient descent with specified iteration solution CORRECT!"
     else:
-        print "FAILED gradient descent solution, mismatch with normal function solution!"
+        print "FAILED gradient descent with specified iteration solution, mismatch with normal function solution!"
+    thetaGD2, costs2 = mod1.gradientDescent(step=step2)
+    if np.less(abs(thetaGD2-thetaNormFunc), np.array([[0.05],[0.05]])).all():
+        print "gradient descent with easy termination solution CORRECT!"
+    else:
+        print "FAILED gradient descent with easy termination solution!"
+    mod1.visulizeCosts()
     
-        
-    #print theta
-    #print costs
 
 
 if __name__ == '__main__':
