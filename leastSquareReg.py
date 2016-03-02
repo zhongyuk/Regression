@@ -104,13 +104,13 @@ class LeastSquare:
             thetaInit = zeros((self._X.shape[1],1))
         if thetaInit.shape[0]!=self._X.shape[1]:
             raise DimensionMismatch()
-        theta = thetaInit
+        theta = copy(thetaInit)
         prevGradient = float("inf")*ones((self._X.shape[1],1))
         if iteration is not None:
             costs = iteration*[0]
             for i in range(0,iteration):
                 costs[i] = self._compCost(theta)
-                if less(prevGradient, abs(self._compBatchGradient(theta))).all():
+                    if less(prevGradient, abs(self._compBatchGradient(theta))).all():
                     raise GradientDescentError()
                 prevGradient = abs(self._compBatchGradient(theta))
                 theta = theta - self._compBatchGradient(theta)*step
@@ -159,7 +159,15 @@ class LeastSquare:
     #### Compute P value
     def pValue(self):
         return
+
+    #### Compute coefficient of determination R^2
+    def compRSquare(self):
+        return
     
+    #### Print coefficients
+    def printCoeff(self):
+        return
+
     #### Visulize cost decreases with respect to iterations
     def visulizeCosts(self):
         if (self._gradDescEst is None) or (self._costs is None):
@@ -168,6 +176,8 @@ class LeastSquare:
         iter = range(1, len(self._costs)+1)
         import matplotlib.pyplot as plt
         plt.plot(iter, self._costs)
+        plt.xlim([1, 100])
+        plt.show()
         return
     
 
