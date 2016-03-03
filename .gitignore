@@ -1,0 +1,7 @@
+# ignore data files
+housing.data.txt
+housing.names.txt
+# ignore compiled file
+*.pyc
+# ignore python notebook checkpoints
+.ipynb_checkpoints/
