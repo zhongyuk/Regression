@@ -44,7 +44,7 @@ def testNormFunc():
         print "FAILED to check field variable initialization!"
     except ValueError:
         print "check field variable initialization CORRECT!"
-##--------Working in process---------
+
 def testPredY():
     x1 = np.array([1,2,3])
     y1 = np.array([1,2,3])
@@ -137,7 +137,18 @@ def testGradientDescent():
         print "FAILED gradient descent with easy termination solution!"
     mod1.visulizeCosts()
     
-
+def testCompRSquare():
+    x1 = np.array([1,2,3])
+    y1 = np.array([1,2,3])
+    mod1 = lsr.LeastSquare(x1,y1)
+    step2 = 0.05
+    iteration = 100
+    thetaGD, costs = mod1.gradientDescent(step=step2, iteration = iteration)
+    RSquare = mod1.compRSquare()
+    if (RSquare - 1.) < 1e-3:
+        print "compute determination of coefficient CORRECT!"
+    else:
+        print "FAILED to compute the determination of coefficient within accuracy threshold!"
 
 if __name__ == '__main__':
     testConstructor()
@@ -145,5 +156,6 @@ if __name__ == '__main__':
     testPredY()
     testCompRSS()
     testGradientDescent()
+    testCompRSquare()
 
 

@@ -110,7 +110,7 @@ class LeastSquare:
             costs = iteration*[0]
             for i in range(0,iteration):
                 costs[i] = self._compCost(theta)
-                    if less(prevGradient, abs(self._compBatchGradient(theta))).all():
+                if less(prevGradient, abs(self._compBatchGradient(theta))).all():
                     raise GradientDescentError()
                 prevGradient = abs(self._compBatchGradient(theta))
                 theta = theta - self._compBatchGradient(theta)*step
@@ -161,8 +161,25 @@ class LeastSquare:
         return
 
     #### Compute coefficient of determination R^2
-    def compRSquare(self):
-        return
+    def compRSquare(self,newX=None,newY=None,estimator='GradientDescent'):
+        if (newX is None) and (newY is None):
+            y = self._y
+        elif (newX is not None) and (newY is not None):
+            if newX.shape[0]!=newY.shape[0]:
+                raise DimensionMismatch()
+            try:
+                newY.shape[1]
+            except IndexError:
+                newY = reshape(newY, (-1,1))
+        else:
+            message = 'newX and newY need to be both specified at the same time, or NOT specified at the same time.'
+            raise ValueError(message)
+        # Compute Residual sum of squares
+        RSS = self.compRSS(newX, newY, estimator)
+        # Compute total sum of squares
+        totSS = sum(square(y - mean(y)))
+        RSquare = 1.0 - RSS/totSS
+        return RSquare
     
     #### Print coefficients
     def printCoeff(self):
